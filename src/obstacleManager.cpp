@@ -71,17 +71,23 @@ void obstacleManager::drawObstacles(sf::RenderWindow& window)
     }
 }
 
-bool obstacleManager::playerCollidesOnTop(sf::Vector2f playerPosition, sf::Vector2f playerSize, float playerVelocity, sf::Time timeElapsed)
+int obstacleManager::playerCollidesOnTop(sf::RectangleShape playerShape, float playerVelocity, sf::Time timeElapsed)
 {
    for (int i = 0; i < obstacles.size(); i++)
    {
-       if ((playerPosition.y + playerVelocity*timeElapsed.asSeconds()) >= (obstacles.at(i).rect.getPosition().y - playerSize.y)//if the player is actually on top
-           && playerPosition.x + playerSize.x <= obstacles.at(i).rect.getPosition().x + obstacles.at(i).rect.getSize().x*2 && //and its not too far to the right
-            playerPosition.x >= obstacles.at(i).rect.getPosition().x - obstacles.at(i).rect.getSize().x)//and its not too far to the left
-       {
-           return true;
-       }
+        if (playerShape.getGlobalBounds().intersects(obstacles.at(i).rect.getGlobalBounds()))
+        {
+            sf::RectangleShape testShape = playerShape;
+            testShape.move(sf::Vector2f(0, -playerVelocity));
+
+            if (testShape.getGlobalBounds().intersects(obstacles.at(i).rect.getGlobalBounds()))
+            {
+                return 2;
+            }
+
+            return 1;
+        }
    }
 
-   return false;
+   return 0;
 }

@@ -16,7 +16,7 @@ class obstacleManager
         void updateObstacles(int windowWidth, int windowHeight, sf::Time elapsed);
         void drawObstacles(sf::RenderWindow& window);
 
-        bool playerCollidesOnTop(sf::Vector2f playerPosition, sf::Vector2f playerSize, float playerVelocity, sf::Time timeElapsed);
+        int playerCollidesOnTop(sf::RectangleShape playerShape, float playerVelocity, sf::Time timeElapsed);
 
         struct obstacle
         {

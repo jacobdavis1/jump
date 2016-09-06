@@ -38,7 +38,7 @@ int main()
 
         elapsed = clock.getElapsedTime();//Set the amount of time that has elapsed since the last frame.
         clock.restart();
-        Player1.updateSelf(elapsed, ObstacleManager.playerCollidesOnTop(Player1.getPosition(), Player1.getSize(), Player1.getVelocity(), elapsed));
+        Player1.updateSelf(elapsed, ObstacleManager.playerCollidesOnTop(Player1.getShape(), Player1.getVelocity(), elapsed));
         ObstacleManager.updateObstacles(window.getSize().x, window.getSize().y, elapsed);
 
         window.clear();

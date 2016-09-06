@@ -7,6 +7,7 @@ const float gravity = 981;
 player::player(float newWidth, float newHeight)
 {
     ownShape.setPosition(100, 100);
+    previousShape = ownShape;
     ownVelocity = 10;
     isJumping = true;
 
@@ -19,7 +20,7 @@ player::~player()
     //dtor
 }
 
-void player::updateSelf(sf::Time timeElapsed, bool collisionWithObstacle)//Update position
+void player::updateSelf(sf::Time timeElapsed, int collisionWithObstacle)//Update position
 {
     ownVelocity += gravity*timeElapsed.asSeconds(); //emulate the gravitational pull of the bottom of the screen
 
@@ -28,11 +29,19 @@ void player::updateSelf(sf::Time timeElapsed, bool collisionWithObstacle)//Updat
         ownVelocity = 0; //stop
         ownShape.setPosition(sf::Vector2f(ownShape.getPosition().x, 600 - ownShape.getSize().y)); //at the edge
     }
-    else if (collisionWithObstacle)
+
+    if (collisionWithObstacle == 1)
     {
         ownVelocity = 0;
+        ownShape = previousShape;
+    }
+    else if (collisionWithObstacle == 2)
+    {
+        ownVelocity = 0;
+        ownShape.setPosition(100, 100);
     }
 
+    previousShape = ownShape;
     ownShape.move(sf::Vector2f(0, ownVelocity*timeElapsed.asSeconds()));//move
 }
 
@@ -50,14 +59,9 @@ void player::drawSelf(sf::RenderWindow& window)
     window.draw(ownShape);
 }
 
-sf::Vector2f player::getPosition()
+sf::RectangleShape  player::getShape()
 {
-    return ownShape.getPosition();
-}
-
-sf::Vector2f player::getSize()
-{
-    return ownShape.getSize();
+    return ownShape;
 }
 
 float player::getVelocity()
