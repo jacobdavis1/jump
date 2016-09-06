@@ -10,19 +10,21 @@ class player
         player(float newWidth, float newHeight);
         virtual ~player();
 
-        void updateSelf(sf::Time timeElapsed, int collisionWithObstacle);
+        void updateSelf(sf::Time frameElapsed, int collisionWithObstacle);
         void jump();
         void drawSelf(sf::RenderWindow& window);
 
         sf::RectangleShape getShape();
+        sf::RectangleShape getPreviousShape();
         float getVelocity();
+        void setSpaceKeyPressed(bool isSpacePressed);
 
     protected:
 
     private:
         float ownVelocity;
         sf::RectangleShape ownShape, previousShape;
-        bool isJumping;
+        bool isJumping, spacePressed;
 };
 
 #endif // PLAYER_H

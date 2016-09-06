@@ -410,27 +410,28 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1473147898 source:c:\users\forsale\documents\github\jump\main.cpp
+1473207032 source:c:\users\forsale\documents\github\jump\main.cpp
 	<SFML/Graphics.hpp>
 	"player.h"
 	"obstacleManager.h"
 	<iostream>
 
-1473150577 c:\users\forsale\documents\github\jump\include\player.h
+1473206903 c:\users\forsale\documents\github\jump\include\player.h
 	<SFML/Graphics.hpp>
 
-1473148369 c:\users\forsale\documents\github\jump\include\obstaclemanager.h
+1473205796 c:\users\forsale\documents\github\jump\include\obstaclemanager.h
 	<SFML/Graphics.hpp>
 	<vector>
 
-1473149735 source:c:\users\forsale\documents\github\jump\src\player.cpp
+1473207054 source:c:\users\forsale\documents\github\jump\src\player.cpp
 	"player.h"
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1473150385 source:c:\users\forsale\documents\github\jump\src\obstaclemanager.cpp
+1473205796 source:c:\users\forsale\documents\github\jump\src\obstaclemanager.cpp
 	"obstacleManager.h"
 	<SFML/Graphics.hpp>
 	<vector>
 	<iostream>
+	<math.h>
 
