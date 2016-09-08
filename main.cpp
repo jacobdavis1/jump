@@ -9,11 +9,10 @@ int main()
     player Player1(40, 40);
     obstacleManager ObstacleManager(40, 45);
 
+    //one clock is the frame-to frame elapsed time,
+    //the other is total time
     sf::Clock frameClock;
-    frameClock.restart();
     sf::Clock totalClock;
-    totalClock.restart();
-    sf::Time elapsed;
 
     sf::Event event;
 
@@ -21,9 +20,9 @@ int main()
     {
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::KeyPressed)//if a key was pressed
+            if (event.type == sf::Event::KeyPressed)
             {
-                if (event.key.code == sf::Keyboard::Space)//if that key is space
+                if (event.key.code == sf::Keyboard::Space)
                 {
                     Player1.setSpaceKeyPressed(true);
                 }
@@ -36,14 +35,21 @@ int main()
             }
             else if (event.type == sf::Event::KeyReleased)
             {
-                Player1.setSpaceKeyPressed(false);
+                if (event.key.code == sf::Keyboard::Space)
+                {
+                    Player1.setSpaceKeyPressed(false);
+                }
             }
 
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        Player1.updateSelf(frameClock.getElapsedTime(), ObstacleManager.playerCollidesOnTop(Player1.getShape(), Player1.getPreviousShape(), Player1.getVelocity(), frameClock.getElapsedTime()));
+        if (!Player1.updateSelf(frameClock.getElapsedTime(), ObstacleManager.playerCollidesOnTop(Player1.getShape(), Player1.getPreviousShape(), Player1.getVelocity(), frameClock.getElapsedTime())))
+        {
+            ObstacleManager.reset();
+            totalClock.restart();
+        }
         ObstacleManager.updateObstacles(window.getSize().x, window.getSize().y, frameClock.getElapsedTime(), totalClock.getElapsedTime());
 
         frameClock.restart();

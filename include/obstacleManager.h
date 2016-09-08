@@ -6,22 +6,36 @@
 class obstacleManager
 {
     public:
+
         obstacleManager(int newDefaultObstacleWidth, int newDefaultObstacleHeightMax);
         virtual ~obstacleManager();
+
+        int playerCollidesOnTop(sf::RectangleShape playerShape, sf::RectangleShape previousPlayerRect, float playerVelocity, sf::Time frameElapsed);
+
+        void updateObstacles(int windowWidth, int windowHeight, sf::Time frameElapsed, sf::Time totalElapsed);
+        void drawObstacles(sf::RenderWindow& window);
+
+        void reset();
+
+    protected:
+
+    private:
 
         int defaultObstacleWidth;
         int defaultObstacleHeightMax;
         bool fullyDisabled;
+        bool difficultyIncreasing;
+        int difficultyLevel;
+        int singleLevelObstacleCap;
+
+        sf::Time difficultyTimeStamp;
 
         void createNewObstacle(int windowWidth, int windowHeight);
-        void updateObstacles(int windowWidth, int windowHeight, sf::Time frameElapsed, sf::Time totalElapsed);
-        void drawObstacles(sf::RenderWindow& window);
+        void checkNewObstacleNeeded(int windowWidth, int windowHeight, sf::Time totalElapsed);
 
         bool checkAllDisabled();
         void normalizeObstacleSequence(int windowWidth);
         void increaseDifficulty(sf::Time totalElapsed);
-
-        int playerCollidesOnTop(sf::RectangleShape playerShape, sf::RectangleShape previousPlayerRect, float playerVelocity, sf::Time frameElapsed);
 
         struct obstacle
         {
@@ -31,11 +45,6 @@ class obstacleManager
         };
 
         std::vector<obstacle> obstacles;
-
-
-    protected:
-
-    private:
 };
 
 #endif // OBSTACLEMANAGER_H
