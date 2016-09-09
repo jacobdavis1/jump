@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include <random>
 #include <math.h>
 
 
@@ -14,6 +15,7 @@ obstacleManager::obstacleManager(int newDefaultObstacleWidth, int newDefaultObst
     difficultyLevel = 0;
     singleLevelObstacleCap = 6;
     obstacles.clear();
+    distribution = std::uniform_int_distribution<int>(1, defaultObstacleHeightMax);
 }
 
 obstacleManager::~obstacleManager()
@@ -24,7 +26,7 @@ obstacleManager::~obstacleManager()
 void obstacleManager::createNewObstacle(int windowWidth, int windowHeight)
 {
     obstacle newObstacle;
-    newObstacle.ownRect.setSize(sf::Vector2f(defaultObstacleWidth, (std::rand() % defaultObstacleHeightMax) + 10));
+    newObstacle.ownRect.setSize(sf::Vector2f(defaultObstacleWidth, distribution(generator) + 10));
     newObstacle.ownRect.setPosition(windowWidth + newObstacle.ownRect.getSize().x, windowHeight - newObstacle.ownRect.getSize().y);
     newObstacle.ownRect.setFillColor((sf::Color::Green));
     newObstacle.inUse = false;
@@ -35,8 +37,7 @@ void obstacleManager::updateObstacles(int windowWidth, int windowHeight, sf::Tim
 {
     checkNewObstacleNeeded(windowWidth, windowHeight, totalElapsed);
 
-    //new func: moveObjects
-    for (int i = 0; i < obstacles.size(); i++)
+    for (unsigned i = 0; i < obstacles.size(); i++)
     {
         obstacles.at(i).previousRect = obstacles.at(i).ownRect;
 
@@ -55,7 +56,7 @@ void obstacleManager::updateObstacles(int windowWidth, int windowHeight, sf::Tim
 
         else if (obstacles.at(i).inUse == false)//if its not in use
         {
-            obstacles.at(i).ownRect.setSize(sf::Vector2f(sf::Vector2f(defaultObstacleWidth, (std::rand() % defaultObstacleHeightMax) + 10)));//get a new random height
+            obstacles.at(i).ownRect.setSize(sf::Vector2f(sf::Vector2f(defaultObstacleWidth, distribution(generator) + 10)));//get a new random height
             obstacles.at(i).ownRect.setPosition(windowWidth + obstacles.at(i).ownRect.getSize().x, windowHeight - obstacles.at(i).ownRect.getSize().y);//reset the obstacle's position to offscreen to the right
 
             if (!fullyDisabled)
@@ -65,7 +66,7 @@ void obstacleManager::updateObstacles(int windowWidth, int windowHeight, sf::Tim
         }
     }
 
-    if (obstacles.size() == singleLevelObstacleCap && !difficultyIncreasing)
+    if (obstacles.size() == (unsigned)singleLevelObstacleCap && !difficultyIncreasing)
     {
         fullyDisabled = true;
         difficultyIncreasing = true;
@@ -77,7 +78,7 @@ void obstacleManager::updateObstacles(int windowWidth, int windowHeight, sf::Tim
 
 void obstacleManager::drawObstacles(sf::RenderWindow& window)
 {
-    for (int i = 0; i < obstacles.size(); i++)
+    for (unsigned i = 0; i < obstacles.size(); i++)
     {
         if (obstacles.at(i).inUse == true)
         {
@@ -89,6 +90,7 @@ void obstacleManager::drawObstacles(sf::RenderWindow& window)
 void obstacleManager::reset()
 {
     fullyDisabled = true;
+    difficultyIncreasing = false;
     obstacles.clear();
     difficultyLevel = 0;
 }
@@ -106,7 +108,7 @@ void obstacleManager::normalizeObstacleSequence(int windowWidth)//make the dista
                 averageDistance = (windowWidth + defaultObstacleWidth)/obstacles.size();
             }
 
-            for (int i = 0; i < obstacles.size(); i++)
+            for (unsigned i = 0; i < obstacles.size(); i++)
             {
                 obstacles.at(i).ownRect.setPosition(windowWidth + obstacles.at(i).ownRect.getSize().x + averageDistance*i, obstacles.at(i).ownRect.getPosition().y);//the actual distribution
                 obstacles.at(i).inUse = true;
@@ -143,16 +145,17 @@ void obstacleManager::checkNewObstacleNeeded(int windowWidth, int windowHeight, 
         numberOfObstaclesNeeded = 0;
     }
 
-    for (numberOfObstaclesNeeded; numberOfObstaclesNeeded > obstacles.size(); numberOfObstaclesNeeded--)
+    while (numberOfObstaclesNeeded > obstacles.size())
     {
         fullyDisabled = true;
         createNewObstacle(windowWidth, windowHeight);
+        numberOfObstaclesNeeded--;
     }
 }
 
 bool obstacleManager::checkAllDisabled()//cycle through all of the obstacles to check whether they are all disabled
 {
-    for (int i = 0; i < obstacles.size(); i++)
+    for (unsigned i = 0; i < obstacles.size(); i++)
     {
         if (obstacles.at(i).inUse == true)
         {
@@ -165,7 +168,7 @@ bool obstacleManager::checkAllDisabled()//cycle through all of the obstacles to 
 
 int obstacleManager::playerCollidesOnTop(sf::RectangleShape playerRect, sf::RectangleShape previousPlayerRect, float playerVelocity, sf::Time frameElapsed)
 {
-   for (int i = 0; i < obstacles.size(); i++)
+   for (unsigned i = 0; i < obstacles.size(); i++)
    {
         if (playerRect.getGlobalBounds().intersects(obstacles.at(i).ownRect.getGlobalBounds()))//if the object collides with the player
         {

@@ -410,28 +410,41 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1473285428 source:c:\users\forsale\documents\github\jump\main.cpp
+1473407804 source:c:\users\forsale\documents\github\jump\main.cpp
 	<SFML/Graphics.hpp>
 	"player.h"
 	"obstacleManager.h"
+	"score.h"
 	<iostream>
 
-1473297121 c:\users\forsale\documents\github\jump\include\player.h
+1473318817 c:\users\forsale\documents\github\jump\include\player.h
 	<SFML/Graphics.hpp>
 
-1473290871 c:\users\forsale\documents\github\jump\include\obstaclemanager.h
+1473406382 c:\users\forsale\documents\github\jump\include\obstaclemanager.h
 	<SFML/Graphics.hpp>
 	<vector>
+	<random>
 
-1473286081 source:c:\users\forsale\documents\github\jump\src\player.cpp
+1473383279 source:c:\users\forsale\documents\github\jump\src\player.cpp
 	"player.h"
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1473293030 source:c:\users\forsale\documents\github\jump\src\obstaclemanager.cpp
+1473406654 source:c:\users\forsale\documents\github\jump\src\obstaclemanager.cpp
 	"obstacleManager.h"
 	<SFML/Graphics.hpp>
 	<vector>
 	<iostream>
+	<random>
 	<math.h>
+
+1473405575 source:c:\users\forsale\documents\github\jump\src\score.cpp
+	"score.h"
+	"SFML/Graphics.hpp"
+	"math.h"
+	<sstream>
+	<string>
+
+1473404543 c:\users\forsale\documents\github\jump\include\score.h
+	"SFML/Graphics.hpp"
 

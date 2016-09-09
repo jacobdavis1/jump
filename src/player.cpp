@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-const float gravity = 1200;
+const float gravity = 2000;
 
 player::player(float newWidth, float newHeight)
 {
@@ -61,8 +61,9 @@ void player::jump()
 {
     if (!isJumping && ownVelocity == 0 && spacePressed)
     {
-        ownVelocity = -400;
+        ownVelocity = -600;
         isJumping = true;
+        canDoubleJump = true;
     }
 }
 
@@ -88,13 +89,11 @@ float player::getVelocity()
 
 void player::setSpaceKeyPressed(bool isSpacePressed)
 {
-    if (spacePressed && !isSpacePressed)
+    if (isJumping && canDoubleJump
+        && !spacePressed && isSpacePressed)//basically, did the player just press the space bar
     {
-        if (canDoubleJump && ownVelocity > -100 && ownVelocity < 100)
-        {
-            ownVelocity = -400;
-            canDoubleJump = false;
-        }
+        ownVelocity = -600;
+        canDoubleJump = false;
     }
 
     spacePressed = isSpacePressed;
