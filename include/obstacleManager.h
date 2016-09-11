@@ -2,6 +2,7 @@
 #define OBSTACLEMANAGER_H
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <random>
 
 class obstacleManager
 {
@@ -27,6 +28,9 @@ class obstacleManager
         bool difficultyIncreasing;
         int difficultyLevel;
         int singleLevelObstacleCap;
+
+        std::default_random_engine generator;
+        std::uniform_int_distribution<int> distribution;
 
         sf::Time difficultyTimeStamp;
 
